@@ -1,0 +1,17 @@
+[info] example-template - http://testphp.vulnweb.com - info
+[WRN] The concurrency value is higher than max-host-error
+[INF] Adjusting max-host-error to the concurrency value: 40
+[WRN] Found 2 templates with runtime error (use -validate flag for further examination)
+[INF] Current nuclei version: v3.5.1 (latest)
+[INF] Current nuclei-templates version: v10.3.2 (latest)
+[INF] New templates added in latest release: 130
+[INF] Templates loaded for current scan: 8794
+[INF] Executing 8792 signed templates from projectdiscovery/nuclei-templates
+[WRN] Loading 2 unsigned templates for scan. Use with caution.
+[INF] Targets loaded for current scan: 223
+[INF] Running httpx on input host
+[INF] Found 1 URL from httpx
+[INF] Templates clustered: 1837 (Reduced 384898 Requests)
+[INF] Using Interactsh Server: oast.site
+[INF] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[INF] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 42 times

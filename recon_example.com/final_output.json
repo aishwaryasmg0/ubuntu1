@@ -1,0 +1,40 @@
+###JSON_START###
+{
+  "domain": "example.com",
+  "scan_timestamp": "2025-11-27T06:24:27.897276+00:00",
+  "statistics": {
+    "subdomains_count": 2,
+    "live_hosts_count": 1,
+    "urls_count": 6,
+    "nuclei_vulnerabilities_count": 1,
+    "nmap_findings_count": 1,
+    "nikto_findings_count": 1,
+    "combined_flagged_findings": 0
+  },
+  "subdomains": [
+    "sub.example.com",
+    "www.example.com"
+  ],
+  "live_hosts": [
+    "http://example.com"
+  ],
+  "urls": [
+    "example.com",
+    "http://example.com",
+    "http://example.com/archived1",
+    "http://example.com/page1",
+    "sub.example.com",
+    "www.example.com"
+  ],
+  "nuclei_results": [
+    "[info] example-template - http://example.com - info"
+  ],
+  "nmap_results": [
+    "Nmap dry-run placeholder"
+  ],
+  "nikto_results": [
+    "Nikto dry-run placeholder"
+  ],
+  "combined_flagged_findings": []
+}
+###JSON_END###

@@ -1,0 +1,39 @@
+nohup: ignoring input
+============================================================
+🚀 Pentest Copilot running on http://127.0.0.1:5000
+📝 Login: admin / admin123
+============================================================
+ * Serving Flask app 'app'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [27/Nov/2025 06:52:31] "[31m[1mGET /health HTTP/1.1[0m" 401 -
+127.0.0.1 - - [27/Nov/2025 06:53:00] "[33mGET / HTTP/1.1[0m" 404 -
+127.0.0.1 - - [27/Nov/2025 06:53:38] "[33mGET / HTTP/1.1[0m" 404 -
+127.0.0.1 - - [27/Nov/2025 06:53:38] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+127.0.0.1 - - [27/Nov/2025 06:59:42] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 06:59:43] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+127.0.0.1 - - [27/Nov/2025 06:59:45] "[31m[1mPOST /api/login HTTP/1.1[0m" 401 -
+127.0.0.1 - - [27/Nov/2025 06:59:50] "POST /api/login HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 06:59:50] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 06:59:50] "GET /api/check-auth HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 06:59:59] "POST /api/logout HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:00:00] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:00:44] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:00:44] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:00:46] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:00:46] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:00:46] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:00:56] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:00:57] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:00:57] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:00:57] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:00:58] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:00:59] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:01:01] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:01:45] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:01:46] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+127.0.0.1 - - [27/Nov/2025 07:01:49] "POST /api/login HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:01:49] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [27/Nov/2025 07:01:49] "GET /api/check-auth HTTP/1.1" 200 -

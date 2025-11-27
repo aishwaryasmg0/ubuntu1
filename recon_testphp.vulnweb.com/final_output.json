@@ -1,12 +1,12 @@
 ###JSON_START###
 {
   "domain": "testphp.vulnweb.com",
-  "scan_timestamp": "2025-11-26T11:50:13.321420+00:00",
+  "scan_timestamp": "2025-11-27T04:29:56.987614+00:00",
   "statistics": {
     "subdomains_count": 2,
     "live_hosts_count": 1,
-    "urls_count": 25,
-    "vulnerabilities_count": 1
+    "urls_count": 24,
+    "vulnerabilities_count": 17
   },
   "subdomains": [
     "sub.testphp.vulnweb.com",
@@ -32,7 +32,6 @@
     "http://testphp.vulnweb.com/index.php",
     "http://testphp.vulnweb.com/login.php",
     "http://testphp.vulnweb.com/Mod_Rewrite_Shop/",
-    "http://testphp.vulnweb.com/page1",
     "http://testphp.vulnweb.com/privacy.php",
     "http://testphp.vulnweb.com/style.css",
     "http://testphp.vulnweb.com/userinfo.php",
@@ -43,7 +42,23 @@
     "www.testphp.vulnweb.com"
   ],
   "nuclei_results": [
-    "[info] example-template - http://testphp.vulnweb.com - info"
+    "[info] example-template - http://testphp.vulnweb.com - info",
+    "[WRN] The concurrency value is higher than max-host-error",
+    "[INF] Adjusting max-host-error to the concurrency value: 40",
+    "[WRN] Found 2 templates with runtime error (use -validate flag for further examination)",
+    "[INF] Current nuclei version: v3.5.1 (latest)",
+    "[INF] Current nuclei-templates version: v10.3.2 (latest)",
+    "[INF] New templates added in latest release: 130",
+    "[INF] Templates loaded for current scan: 8794",
+    "[INF] Executing 8792 signed templates from projectdiscovery/nuclei-templates",
+    "[WRN] Loading 2 unsigned templates for scan. Use with caution.",
+    "[INF] Targets loaded for current scan: 223",
+    "[INF] Running httpx on input host",
+    "[INF] Found 1 URL from httpx",
+    "[INF] Templates clustered: 1837 (Reduced 384898 Requests)",
+    "[INF] Using Interactsh Server: oast.site",
+    "[INF] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times",
+    "[INF] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 42 times"
   ]
 }
 ###JSON_END###

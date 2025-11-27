@@ -1,1 +1,21 @@
-[info] example-template - http://testphp.vulnweb.com - info
+[CVE-2022-1020] [http] [critical] http://testphp.vulnweb.com:80/secured/phpinfo.php/wp-admin/admin-ajax.php?=PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000&=PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000&action=wpt_admin_update_notice_option
+[WRN] The concurrency value is higher than max-host-error
+[INF] Adjusting max-host-error to the concurrency value: 40
+[WRN] Found 2 templates with runtime error (use -validate flag for further examination)
+[INF] Current nuclei version: v3.5.1 (latest)
+[INF] Current nuclei-templates version: v10.3.2 (latest)
+[INF] New templates added in latest release: 130
+[INF] Templates loaded for current scan: 8794
+[WRN] Loading 2 unsigned templates for scan. Use with caution.
+[INF] Executing 8792 signed templates from projectdiscovery/nuclei-templates
+[INF] Targets loaded for current scan: 223
+[INF] Running httpx on input host
+[INF] Found 1 URL from httpx
+[INF] Templates clustered: 1837 (Reduced 384898 Requests)
+[INF] Using Interactsh Server: oast.site
+[INF] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[INF] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 41 times
+[INF] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 42 times
+[INF] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 52 times
+[INF] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 43 times
+[INF] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 49 times

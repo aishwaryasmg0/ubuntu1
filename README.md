@@ -1,1 +1,1 @@
-# ubuntu1
+# source venv/bin/activate

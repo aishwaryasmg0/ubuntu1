@@ -53,6 +53,32 @@
     <h1>🛡️ Beckman Automation</h1>
     <div class="subtitle">Automated Reconnaissance & Vulnerability Scanning Dashboard</div>
   </div>
+  <div class="navbar-actions">
+    <button id="logoutBtn" class="btn btn-logout">
+        🚪 Logout
+    </button>
+</div>
+
+<script>
+    // Add logout functionality to your existing dashboard JavaScript
+    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+        const response = await fetch('/api/logout', { method: 'POST' });
+        if (response.ok) {
+            window.location.href = '/';
+        }
+    });
+
+    // Check authentication on page load
+    fetch('/api/check-auth')
+        .then(res => {
+            if (!res.ok) {
+                window.location.href = '/';
+            }
+        })
+        .catch(() => {
+            window.location.href = '/';
+        });
+</script>
   <div class="main-container">
     <div class="sidebar">
       <div class="nav-item active" onclick="switchTab(event, 'dashboard')">📊 Dashboard</div>
