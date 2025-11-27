@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Beckman Automation</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: 'Segoe UI', 'Courier New', monospace; background: #0a0e27; color: #0f0; height: 100vh; margin: 0; }
+    .header { background: #0a0e27; border-bottom: 2px solid #0f0; padding: 15px 20px; }
+    .header h1 { color: #0f0; font-size: 24px; margin-bottom: 3px; }
+    .subtitle { color: #ff0; font-size: 12px; }
+    .main-container { display: flex; height: calc(100vh - 80px); }
+    .sidebar { width: 200px; background: #0a0e27; border-right: 2px solid #0f0; padding: 20px 0; }
+    .nav-item { padding: 15px 20px; cursor: pointer; border-left: 3px solid transparent; color: #0f0; font-size: 13px; user-select: none; }
+    .nav-item:hover { background: rgba(0,255,0,0.08); border-left-color: #0f0; }
+    .nav-item.active { background: rgba(0,255,0,0.13); border-left-color: #0f0; font-weight: bold; }
+    .content-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .input-panel { background: #0a0e27; border-bottom: 1px solid #0f0; padding: 15px 20px; display: flex; gap: 10px; align-items: center; }
+    .input-panel input { flex: 1; padding: 10px; background: #1a1f3a; color: #0f0; border: 1px solid #0f0; font-family: monospace; max-width: 350px; }
+    .input-panel button { padding: 10px 20px; background: #0f0; color: #000; border: none; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+    .input-panel button:hover { background: #0a0; box-shadow: 0 0 12px #0f0; }
+    .content-panels { flex: 1; display: none; flex-direction: column; overflow: hidden; padding: 15px; gap: 15px; min-height: 0; }
+    .content-panels.active { display: flex; }
+    .dashboard-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: 1; min-height: 0; }
+    .chart-container { border: 2px solid #0f0; background: #0a0e27; padding: 14px; position: relative; height: 250px; display: flex; flex-direction: column; }
+    .chart-title { color: #0f0; font-weight: bold; margin-bottom: 9px; font-size: 13px; }
+    .chart-wrapper { flex: 1; position: relative; }
+    .scan-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: 1; min-height: 0; }
+    .scan-panel { border: 2px solid; padding: 15px; background: #0a0e27; overflow-y: auto; font-size: 12px; display: flex; flex-direction: column; min-height: 0; }
+    .scan-panel-title { font-weight: bold; margin-bottom: 8px; font-size: 12px; text-transform: uppercase; }
+    .scan-panel-content { flex: 1; overflow-y: auto; min-height: 0; word-wrap: break-word; white-space: pre-wrap; }
+    #output { border-color: #0f0; }
+    #output .scan-panel-title { color: #0f0; }
+    #vulnContent { border-color: #ff0; }
+    #vulnContent .scan-panel-title { color: #ff0; }
+    .checklist-panel { border: 2px solid #ff0; padding: 15px; background: #0a0e27; overflow-y: auto; flex: 1; min-height: 0; }
+    .checklist-panel .panel-title { color: #ff0; }
+    .checklist-item { padding: 8px; margin: 5px 0; display: flex; align-items: center; gap: 10px; background: rgba(0,255,0,0.05); border-left: 3px solid #0f0; font-size: 12px; }
+    .checklist-item input { cursor: pointer; }
+    .checklist-item input:checked + span { text-decoration: line-through; color: #888; }
+    .copilot-panel { border: 2px solid #f0f; padding: 15px; background: #0a0e27; overflow: hidden; display: flex; flex-direction: column; flex: 1; min-height: 0; }
+    .copilot-panel .panel-title { color: #f0f; }
+    .chat-box { flex: 1; border: 1px solid #f0f; background: #0a0e27; overflow-y: auto; margin-bottom: 10px; padding: 10px; color: #f0f; font-size: 11px; line-height: 1.4; min-height: 0; }
+    .chat-input-area { display: flex; gap: 10px; }
+    #aiInput { flex: 1; padding: 8px; background: #1a1f3a; color: #f0f; border: 1px solid #f0f; font-family: monospace; font-size: 12px; }
+    .ai-btn { padding: 8px 15px; background: #f0f; color: #000; border: none; cursor: pointer; font-weight: bold; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-thumb { background: #0f0; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0a0; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🛡️ Beckman Automation</h1>
+    <div class="subtitle">Automated Reconnaissance & Vulnerability Scanning Dashboard</div>
+  </div>
+  <div class="main-container">
+    <div class="sidebar">
+      <div class="nav-item active" onclick="switchTab(event, 'dashboard')">📊 Dashboard</div>
+      <div class="nav-item" onclick="switchTab(event, 'scan')">🔍 Live Scan</div>
+      <div class="nav-item" onclick="switchTab(event, 'checklist')">📋 Checklist</div>
+      <div class="nav-item" onclick="switchTab(event, 'copilot')">🤖 AI Copilot</div>
+    </div>
+    <div class="content-area">
+      <div class="input-panel">
+        <input type="text" id="domainInput" placeholder="Enter domain..." value="testphp.vulnweb.com">
+        <button onclick="startRecon()">▶ Run Scan</button>
+      </div>
+      <div id="dashboard" class="content-panels active">
+        <div class="dashboard-panel">
+          <div class="chart-container">
+            <div class="chart-title">🔴 Vulnerability Severity Distribution</div>
+            <div class="chart-wrapper">
+              <canvas id="severityChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-title">📈 Scan Progress</div>
+            <div class="chart-wrapper">
+              <canvas id="progressChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="scan" class="content-panels">
+        <div class="scan-panels">
+          <div class="scan-panel" id="output">
+            <div class="scan-panel-title">📡 Live Output</div>
+            <div class="scan-panel-content" id="logContent"></div>
+          </div>
+          <div class="scan-panel" id="vulnContent">
+            <div class="scan-panel-title">🔍 Vulnerabilities Found</div>
+            <div class="scan-panel-content" id="vulnPanel"></div>
+          </div>
+        </div>
+      </div>
+      <div id="checklist" class="content-panels">
+        <div class="checklist-panel">
+          <div class="panel-title">📋 Pentest Methodology Checklist</div>
+          <div id="checklistContent"></div>
+        </div>
+      </div>
+      <div id="copilot" class="content-panels">
+        <div class="copilot-panel">
+          <div class="panel-title">🤖 AI Pentest Assistant</div>
+          <div class="chat-box" id="chatBox">
+            <div style="color: #f0f;">Welcome! I'm your AI Pentest Assistant. Ask me about vulnerabilities, exploitation, or remediation.</div>
+          </div>
+          <div class="chat-input-area">
+            <input type="text" id="aiInput" placeholder="Ask AI..." onkeypress="handleAIInput(event)">
+            <button class="ai-btn" onclick="sendToAI()">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function switchTab(event, tabName) {
+      document.querySelectorAll('.content-panels').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+      if (tabName === 'checklist') initChecklist();
+    }
+    function initChecklist() {
+      const content = document.getElementById('checklistContent');
+      if (content.innerHTML === '') {
+        const steps = [
+          'Subdomain Enumeration',
+          'Live Host Discovery',
+          'URL Crawling & Spidering',
+          'Archived URL Collection',
+          'Vulnerability Scanning (Nuclei)',
+          'Manual Validation & Exploitation',
+          'Report Generation'
+        ];
+        content.innerHTML = steps.map((s, i) => `
+          <div class="checklist-item">
+            <input type="checkbox" id="step${i+1}" onchange="localStorage.setItem('step${i+1}', this.checked)">
+            <span>${s}</span>
+          </div>
+        `).join('');
+        for (let i = 1; i <= 7; i++) {
+          const el = document.getElementById('step' + i);
+          if (el) el.checked = localStorage.getItem('step' + i) === 'true';
+        }
+      }
+    }
+    function autoCheckStep(id) {
+      const el = document.getElementById(id);
+      if (el) { el.checked = true; localStorage.setItem(id, 'true'); }
+    }
+    let severityChart = null, progressChart = null;
+    function initCharts() {
+      const ctxSev = document.getElementById('severityChart').getContext('2d');
+      severityChart = new Chart(ctxSev, {
+        type: 'doughnut',
+        data: {
+          labels: ['Critical', 'High', 'Medium', 'Low', 'Info'],
+          datasets: [{ 
+            data: [0, 0, 0, 0, 0], 
+            backgroundColor: ['#ff0000', '#ff6600', '#ffff00', '#00ffff', '#00ff00'], 
+            borderColor: '#0a0e27', 
+            borderWidth: 2 
+          }]
+        },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false,
+          plugins: { 
+            legend: { labels: { color: '#0f0', font: { size: 11 } } } 
+          } 
+        }
+      });
+      const ctxProg = document.getElementById('progressChart').getContext('2d');
+      progressChart = new Chart(ctxProg, {
+        type: 'bar',
+        data: {
+          labels: ['Subdomains', 'Live Hosts', 'URLs', 'Vulns'],
+          datasets: [{ label: 'Count', data: [0, 0, 0, 0], backgroundColor: '#0f0', borderColor: '#0a0', borderWidth: 1 }]
+        },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false,
+          indexAxis: 'y',
+          plugins: { 
+            legend: { labels: { color: '#0f0', font: { size: 10 } } }
+          },
+          scales: { 
+            y: { ticks: { color: '#0f0' }, grid: { color: '#1a1f3a' } }, 
+            x: { ticks: { color: '#0f0' }, grid: { color: '#1a1f3a' } } 
+          }
+        }
+      });
+    }
+    window.addEventListener('load', initCharts);
+
+    function startRecon() {
+      const domain = document.getElementById('domainInput').value;
+      if (!domain) { alert('Enter domain'); return; }
+      document.getElementById('logContent').innerHTML = '';
+      document.getElementById('vulnPanel').innerHTML = '<span class="info">Scanning...</span>';
+      const nav = document.querySelectorAll('.nav-item')[1];
+      switchTab({target: nav}, 'scan');
+      fetch('/run-recon', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ domain })
+      }).then(() => streamLogs());
+    }
+
+    
+    function colorSeverityKeywords(text) {
+      const severityColors = {
+        'critical': '#ff0000',
+        'high': '#ff6600',
+        'medium': '#ffff00',
+        'low': '#00aaff',
+        'info': '#00ff00'
+      };
+
+      let coloredText = text;
+      for (let [severity, color] of Object.entries(severityColors)) {
+        const regex = new RegExp(`\b(${severity})\b`, 'gi');
+        coloredText = coloredText.replace(regex, `<span style="color:${color};font-weight:bold;">$1</span>`);
+      }
+      return coloredText;
+    }
+
+    function getSeverityColor(severity) {
+      const colors = {
+        'critical': '#ff0000',
+        'high': '#ff6600',
+        'medium': '#ffff00',
+        'low': '#00ffff',
+        'info': '#00ff00'
+      };
+      return colors[severity] || '#00ff00';
+    }
+
+    function streamLogs() {
+      const es = new EventSource('/logs');
+      const log = document.getElementById('logContent');
+      const vuln = document.getElementById('vulnPanel');
+      let count = { critical: 0, high: 0, medium: 0, low: 0, info: 0 };
+      let stepMarked = {};
+      vuln.innerHTML = '';
+      log.innerHTML = '';
+      es.onmessage = function(e) {
+        const d = e.data.trim();
+        // Chart progress + checklist
+        if (d.includes("[+] Found") && d.includes("subdomains")) {
+          let num = Number((d.match(/(\d+)\s+subdomains/) || [0, 0])[1]);
+          progressChart.data.datasets[0].data[0] = num; progressChart.update();
+          !stepMarked.step1 && autoCheckStep('step1'); stepMarked.step1 = true;
+        }
+        if (d.includes("[+] Found") && d.includes("live hosts")) {
+          let num = Number((d.match(/(\d+)\s+live\s+hosts/) || [0, 0])[1]);
+          progressChart.data.datasets[0].data[1] = num; progressChart.update();
+          !stepMarked.step2 && autoCheckStep('step2'); stepMarked.step2 = true;
+        }
+        if (d.includes("[+] Found") && d.includes("URLs")) {
+          let num = Number((d.match(/(\d+)\s+URLs/) || [0, 0])[1]);
+          progressChart.data.datasets[0].data[2] = num; progressChart.update();
+          !stepMarked.step3 && autoCheckStep('step3'); stepMarked.step3 = true;
+        }
+        if (d.includes("[+] Found") && d.includes("vulnerabilities")) {
+          let num = Number((d.match(/(\d+)\s+vulnerabilities/) || [0, 0])[1]);
+          progressChart.data.datasets[0].data[3] = num; progressChart.update();
+          !stepMarked.step5 && autoCheckStep('step5'); stepMarked.step5 = true;
+        }
+        // Pretty vuln output
+        if (d.includes('###VULN###')) {
+          let v = d.replace('###VULN###', '').replace('###END###', '').trim();
+          // Parse: [severity] name (url)
+          let match = v.match(/\[(.*?)\]\s*([^\(]+)\((https?:\/\/.*?)\)/);
+          let severity = match ? match[1].toLowerCase() : 'info';
+          let vulntype = match ? match[2].trim() : '';
+          let url = match ? match[3] : v;
+          let color = getSeverityColor(severity);
+          vuln.innerHTML += `<div style="border-left:6px solid ${color};margin-top:4px;padding:6px;">
+            <span style="font-weight:bold;color:${color};text-transform:uppercase;">[${severity}]</span>
+            <span style="font-weight:bold;">${colorSeverityKeywords(vulntype)}</span>
+            <span style="color:#aaa;font-weight:bold;">${url}</span>
+          </div>`;
+          vuln.scrollTop = vuln.scrollHeight;
+          if (severityChart) {
+            if (severity === "critical") count.critical++;
+            else if (severity === "high") count.high++;
+            else if (severity === "medium") count.medium++;
+            else if (severity === "low") count.low++;
+            else count.info++;
+            severityChart.data.datasets[0].data = [count.critical, count.high, count.medium, count.low, count.info];
+            severityChart.update();
+          }
+        } else if (d && d.length > 0) {
+          log.innerHTML += d + '<br>';
+          log.scrollTop = log.scrollHeight;
+        }
+      };
+      es.onerror = function() { es.close(); };
+    }
+
+    function handleAIInput(e) { if (e.key === 'Enter') sendToAI(); }
+    function sendToAI() {
+      const msg = document.getElementById('aiInput').value;
+      if (!msg) return;
+      const chat = document.getElementById('chatBox');
+      chat.innerHTML += `<div style="color: #0f0; margin-top: 5px;"><b>You:</b> ${msg}</div>`;
+      document.getElementById('aiInput').value = '';
+      chat.scrollTop = chat.scrollHeight;
+      const resp = { 'xss': 'XSS: Input validation, output encoding, CSP headers', 'sql': 'SQL: Prepared statements, parameterized queries', 'vulnerability': 'Check OWASP Top 10', 'exploit': 'Always get authorization', 'default': 'Ask me anything!' };
+      let r = resp['default'];
+      for (let k of Object.keys(resp)) { if (msg.toLowerCase().includes(k)) { r = resp[k]; break; } }
+      setTimeout(() => {
+        chat.innerHTML += `<div style="color: #f0f; margin-top: 5px;"><b>AI:</b> ${r}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+      }, 300);
+    }
+  </script>
+</body>
+</html>

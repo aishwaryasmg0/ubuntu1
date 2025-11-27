@@ -1,0 +1,1 @@
+[info] example-template - http://testphp.vulnweb.com - info

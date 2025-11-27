@@ -1,0 +1,53 @@
+
+                     __     _
+   ____  __  _______/ /__  (_)
+  / __ \/ / / / ___/ / _ \/ /
+ / / / / /_/ / /__/ /  __/ /
+/_/ /_/\__,_/\___/_/\___/_/   v3.5.1
+
+		projectdiscovery.io
+
+[[34mINF[0m] nuclei-templates are not installed, installing...
+[[34mINF[0m] Successfully installed nuclei-templates at /home/vboxuser/nuclei-templates
+[[93mWRN[0m] The concurrency value is higher than max-host-error
+[[34mINF[0m] Adjusting max-host-error to the concurrency value: 40
+[[31mWRN[0m] Found 2 templates with runtime error (use -validate flag for further examination)
+[[34mINF[0m] Current nuclei version: v3.5.1 ([92mlatest[0m)
+[[34mINF[0m] Current nuclei-templates version: v10.3.2 ([92mlatest[0m)
+[[34mINF[0m] New templates added in latest release: 130
+[[34mINF[0m] Templates loaded for current scan: 8794
+[[34mINF[0m] Executing 8792 signed templates from projectdiscovery/nuclei-templates
+[[93mWRN[0m] Loading 2 unsigned templates for scan. Use with caution.
+[[34mINF[0m] Targets loaded for current scan: 222
+[[34mINF[0m] Running httpx on input host
+[[34mINF[0m] Found 1 URL from httpx
+[[34mINF[0m] Templates clustered: 1837 (Reduced 383172 Requests)
+[[34mINF[0m] Using Interactsh Server: oast.site
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 42 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 42 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 42 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 41 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 42 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 43 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 41 times
+[[92mCVE-2020-5776[0m] [[94mhttp[0m] [[38;5;208mhigh[0m] http://testphp.vulnweb.com:80/secured/phpinfo.php/magmi/web/magmi_run.php?=PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000&=PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000
+[[92mCVE-2020-5776[0m] [[94mhttp[0m] [[38;5;208mhigh[0m] http://testphp.vulnweb.com:80/secured/phpinfo.php/magmi/web/info.php?=PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000&=PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 42 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 41 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 41 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 46 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped testphp.vulnweb.com:80 from target list as found unresponsive 40 times

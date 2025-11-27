@@ -1,0 +1,2 @@
+[CVE-2020-5776] [http] [high] http://testphp.vulnweb.com:80/secured/phpinfo.php/magmi/web/magmi_run.php?=PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000&=PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000
+[CVE-2020-5776] [http] [high] http://testphp.vulnweb.com:80/secured/phpinfo.php/magmi/web/info.php?=PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000&=PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000

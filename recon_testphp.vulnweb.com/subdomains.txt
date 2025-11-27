@@ -1,0 +1,2 @@
+sub.testphp.vulnweb.com
+www.testphp.vulnweb.com
