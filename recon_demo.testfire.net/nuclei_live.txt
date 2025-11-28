@@ -1,0 +1,30 @@
+
+                     __     _
+   ____  __  _______/ /__  (_)
+  / __ \/ / / / ___/ / _ \/ /
+ / / / / /_/ / /__/ /  __/ /
+/_/ /_/\__,_/\___/_/\___/_/   v3.5.1
+
+		projectdiscovery.io
+
+[[93mWRN[0m] The concurrency value is higher than max-host-error
+[[34mINF[0m] Adjusting max-host-error to the concurrency value: 40
+[[31mWRN[0m] Found 2 templates with runtime error (use -validate flag for further examination)
+[[34mINF[0m] Current nuclei version: v3.5.1 ([92mlatest[0m)
+[[34mINF[0m] Current nuclei-templates version: v10.3.2 ([92mlatest[0m)
+[[34mINF[0m] New templates added in latest release: 130
+[[34mINF[0m] Templates loaded for current scan: 8794
+[[34mINF[0m] Executing 8792 signed templates from projectdiscovery/nuclei-templates
+[[93mWRN[0m] Loading 2 unsigned templates for scan. Use with caution.
+[[34mINF[0m] Targets loaded for current scan: 244
+[[34mINF[0m] Running httpx on input host
+[[34mINF[0m] Found 1 URL from httpx
+[[34mINF[0m] Templates clustered: 1837 (Reduced 421144 Requests)
+[[34mINF[0m] Using Interactsh Server: oast.site
+[[34mINF[0m] Skipped demo.testfire.net:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped demo.testfire.net:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped demo.testfire.net:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped demo.testfire.net:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped demo.testfire.net:80 from target list as found unresponsive 40 times
+[[34mINF[0m] Skipped demo.testfire.net:80 from target list as found unresponsive 41 times
+[[34mINF[0m] Skipped demo.testfire.net:80 from target list as found unresponsive 40 times
