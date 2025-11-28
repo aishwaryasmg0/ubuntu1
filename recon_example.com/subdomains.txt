@@ -1,2 +1,0 @@
-sub.example.com
-www.example.com

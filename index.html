@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,91 +7,139 @@
   <style>
     body { font-family: 'Segoe UI', 'Courier New', monospace; background: #0a0e27; color: #0f0; height: 100vh; margin: 0; }
     .header { background: #0a0e27; border-bottom: 2px solid #0f0; padding: 15px 20px; }
-    .header h1 { color: #0f0; font-size: 24px; margin-bottom: 3px; }
-    .subtitle { color: #ff0; font-size: 12px; }
+    .header-left h1 { color: #0f0; font-size: 24px; margin: 0 0 3px 0; }
+    .subtitle { color: #ff0; font-size: 12px; margin: 0; }
+
     .main-container { display: flex; height: calc(100vh - 80px); }
-    .sidebar { width: 200px; background: #0a0e27; border-right: 2px solid #0f0; padding: 20px 0; }
-    .nav-item { padding: 15px 20px; cursor: pointer; border-left: 3px solid transparent; color: #0f0; font-size: 13px; user-select: none; }
+
+    .sidebar {
+      width: 220px;
+      background: #0a0e27;
+      border-right: 2px solid #0f0;
+      padding: 20px 0 10px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .sidebar-top {
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-item {
+      padding: 15px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      color: #0f0;
+      font-size: 13px;
+      user-select: none;
+      transition: all 0.3s;
+    }
     .nav-item:hover { background: rgba(0,255,0,0.08); border-left-color: #0f0; }
     .nav-item.active { background: rgba(0,255,0,0.13); border-left-color: #0f0; font-weight: bold; }
+
+    .sidebar-bottom {
+      padding: 10px 15px 0 15px;
+      border-top: 1px solid rgba(0,255,0,0.3);
+      margin-top: 10px;
+    }
+    .logout-btn {
+      width: 100%;
+      padding: 10px 15px;
+      background: #ff0000;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 4px;
+      transition: all 0.3s;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .logout-btn:hover { background: #cc0000; box-shadow: 0 0 12px #ff0000; }
+    .logout-btn:active { transform: scale(0.97); }
+
     .content-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
     .input-panel { background: #0a0e27; border-bottom: 1px solid #0f0; padding: 15px 20px; display: flex; gap: 10px; align-items: center; }
-    .input-panel input { flex: 1; padding: 10px; background: #1a1f3a; color: #0f0; border: 1px solid #0f0; font-family: monospace; max-width: 350px; }
-    .input-panel button { padding: 10px 20px; background: #0f0; color: #000; border: none; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+    .input-panel input { flex: 1; padding: 10px; background: #1a1f3a; color: #0f0; border: 1px solid #0f0; font-family: monospace; max-width: 350px; border-radius: 4px; }
+    .input-panel input::placeholder { color: #0f0; opacity: 0.6; }
+    .input-panel button { padding: 10px 20px; background: #0f0; color: #000; border: none; cursor: pointer; font-weight: bold; transition: all 0.3s; border-radius: 4px; }
     .input-panel button:hover { background: #0a0; box-shadow: 0 0 12px #0f0; }
+    .input-panel button:active { transform: scale(0.95); }
+
     .content-panels { flex: 1; display: none; flex-direction: column; overflow: hidden; padding: 15px; gap: 15px; min-height: 0; }
     .content-panels.active { display: flex; }
+
     .dashboard-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: 1; min-height: 0; }
-    .chart-container { border: 2px solid #0f0; background: #0a0e27; padding: 14px; position: relative; height: 250px; display: flex; flex-direction: column; }
-    .chart-title { color: #0f0; font-weight: bold; margin-bottom: 9px; font-size: 13px; }
+    .chart-container { border: 2px solid #0f0; background: #0a0e27; padding: 14px; position: relative; height: 280px; display: flex; flex-direction: column; border-radius: 6px; box-shadow: 0 0 10px rgba(0,255,0,0.2); }
+    .chart-title { color: #0f0; font-weight: bold; margin-bottom: 10px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
     .chart-wrapper { flex: 1; position: relative; }
+
     .scan-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: 1; min-height: 0; }
-    .scan-panel { border: 2px solid; padding: 15px; background: #0a0e27; overflow-y: auto; font-size: 12px; display: flex; flex-direction: column; min-height: 0; }
-    .scan-panel-title { font-weight: bold; margin-bottom: 8px; font-size: 12px; text-transform: uppercase; }
+    .scan-panel { border: 2px solid; padding: 15px; background: #0a0e27; overflow-y: auto; font-size: 12px; display: flex; flex-direction: column; min-height: 0; border-radius: 6px; box-shadow: 0 0 10px rgba(0,255,0,0.1); }
+    .scan-panel-title { font-weight: bold; margin-bottom: 10px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
     .scan-panel-content { flex: 1; overflow-y: auto; min-height: 0; word-wrap: break-word; white-space: pre-wrap; }
     #output { border-color: #0f0; }
     #output .scan-panel-title { color: #0f0; }
     #vulnContent { border-color: #ff0; }
     #vulnContent .scan-panel-title { color: #ff0; }
-    .checklist-panel { border: 2px solid #ff0; padding: 15px; background: #0a0e27; overflow-y: auto; flex: 1; min-height: 0; }
-    .checklist-panel .panel-title { color: #ff0; }
-    .checklist-item { padding: 8px; margin: 5px 0; display: flex; align-items: center; gap: 10px; background: rgba(0,255,0,0.05); border-left: 3px solid #0f0; font-size: 12px; }
-    .checklist-item input { cursor: pointer; }
+
+    .checklist-panel { border: 2px solid #ff0; padding: 15px; background: #0a0e27; overflow-y: auto; flex: 1; min-height: 0; border-radius: 6px; box-shadow: 0 0 10px rgba(255,255,0,0.1); }
+    .checklist-panel .panel-title { color: #ff0; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+    .checklist-item { padding: 10px; margin: 8px 0; display: flex; align-items: center; gap: 12px; background: rgba(0,255,0,0.08); border-left: 4px solid #0f0; font-size: 12px; border-radius: 3px; transition: all 0.3s; }
+    .checklist-item:hover { background: rgba(0,255,0,0.12); }
+    .checklist-item input { cursor: pointer; width: 18px; height: 18px; accent-color: #0f0; }
     .checklist-item input:checked + span { text-decoration: line-through; color: #888; }
-    .copilot-panel { border: 2px solid #f0f; padding: 15px; background: #0a0e27; overflow: hidden; display: flex; flex-direction: column; flex: 1; min-height: 0; }
-    .copilot-panel .panel-title { color: #f0f; }
-    .chat-box { flex: 1; border: 1px solid #f0f; background: #0a0e27; overflow-y: auto; margin-bottom: 10px; padding: 10px; color: #f0f; font-size: 11px; line-height: 1.4; min-height: 0; }
+
+    .copilot-panel { border: 2px solid #f0f; padding: 15px; background: #0a0e27; overflow: hidden; display: flex; flex-direction: column; flex: 1; min-height: 0; border-radius: 6px; box-shadow: 0 0 10px rgba(240,0,240,0.1); }
+    .copilot-panel .panel-title { color: #f0f; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    .chat-box { flex: 1; border: 1px solid #f0f; background: #0a0e27; overflow-y: auto; margin-bottom: 10px; padding: 12px; color: #f0f; font-size: 11px; line-height: 1.6; min-height: 0; border-radius: 4px; }
     .chat-input-area { display: flex; gap: 10px; }
-    #aiInput { flex: 1; padding: 8px; background: #1a1f3a; color: #f0f; border: 1px solid #f0f; font-family: monospace; font-size: 12px; }
-    .ai-btn { padding: 8px 15px; background: #f0f; color: #000; border: none; cursor: pointer; font-weight: bold; }
+    #aiInput { flex: 1; padding: 10px; background: #1a1f3a; color: #f0f; border: 1px solid #f0f; font-family: monospace; font-size: 12px; border-radius: 4px; }
+    #aiInput::placeholder { color: #f0f; opacity: 0.6; }
+    .ai-btn { padding: 10px 15px; background: #f0f; color: #000; border: none; cursor: pointer; font-weight: bold; border-radius: 4px; transition: all 0.3s; }
+    .ai-btn:hover { background: #ff00ff; box-shadow: 0 0 12px #f0f; }
+
     ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(0,255,0,0.05); }
     ::-webkit-scrollbar-thumb { background: #0f0; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #0a0; }
+
+    .vuln-entry { border-left: 6px solid #0f0; margin-top: 6px; padding: 10px; margin-bottom: 10px; background: rgba(0,255,0,0.05); border-radius: 3px; }
+    .vuln-severity-badge { font-weight: bold; text-transform: uppercase; margin-right: 10px; padding: 4px 8px; border-radius: 3px; font-size: 11px; display: inline-block; }
+    .info-text { color: #aaa; line-height: 1.5; }
+    .scanning-status { color: #ff0; font-weight: bold; padding: 10px; background: rgba(255,255,0,0.1); border-radius: 3px; margin-bottom: 10px; }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1>🛡️ Beckman Automation</h1>
-    <div class="subtitle">Automated Reconnaissance & Vulnerability Scanning Dashboard</div>
+    <div class="header-left">
+      <h1>🛡️ Beckman Automation</h1>
+      <div class="subtitle">Automated Reconnaissance & Vulnerability Scanning Dashboard</div>
+    </div>
   </div>
-  <div class="navbar-actions">
-    <button id="logoutBtn" class="btn btn-logout">
-        🚪 Logout
-    </button>
-</div>
 
-<script>
-    // Add logout functionality to your existing dashboard JavaScript
-    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-        const response = await fetch('/api/logout', { method: 'POST' });
-        if (response.ok) {
-            window.location.href = '/';
-        }
-    });
-
-    // Check authentication on page load
-    fetch('/api/check-auth')
-        .then(res => {
-            if (!res.ok) {
-                window.location.href = '/';
-            }
-        })
-        .catch(() => {
-            window.location.href = '/';
-        });
-</script>
   <div class="main-container">
     <div class="sidebar">
-      <div class="nav-item active" onclick="switchTab(event, 'dashboard')">📊 Dashboard</div>
-      <div class="nav-item" onclick="switchTab(event, 'scan')">🔍 Live Scan</div>
-      <div class="nav-item" onclick="switchTab(event, 'checklist')">📋 Checklist</div>
-      <div class="nav-item" onclick="switchTab(event, 'copilot')">🤖 AI Copilot</div>
+      <div class="sidebar-top">
+        <div class="nav-item active" onclick="switchTab(event, 'dashboard')">📊 Dashboard</div>
+        <div class="nav-item" onclick="switchTab(event, 'scan')">🔍 Live Scan</div>
+        <div class="nav-item" onclick="switchTab(event, 'checklist')">📋 Checklist</div>
+        <div class="nav-item" onclick="switchTab(event, 'copilot')">🤖 AI Copilot</div>
+      </div>
+      <div class="sidebar-bottom">
+        <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
+      </div>
     </div>
+
     <div class="content-area">
       <div class="input-panel">
         <input type="text" id="domainInput" placeholder="Enter domain..." value="testphp.vulnweb.com">
         <button onclick="startRecon()">▶ Run Scan</button>
       </div>
+
       <div id="dashboard" class="content-panels active">
         <div class="dashboard-panel">
           <div class="chart-container">
@@ -107,6 +156,7 @@
           </div>
         </div>
       </div>
+
       <div id="scan" class="content-panels">
         <div class="scan-panels">
           <div class="scan-panel" id="output">
@@ -119,12 +169,14 @@
           </div>
         </div>
       </div>
+
       <div id="checklist" class="content-panels">
         <div class="checklist-panel">
           <div class="panel-title">📋 Pentest Methodology Checklist</div>
           <div id="checklistContent"></div>
         </div>
       </div>
+
       <div id="copilot" class="content-panels">
         <div class="copilot-panel">
           <div class="panel-title">🤖 AI Pentest Assistant</div>
@@ -139,7 +191,25 @@
       </div>
     </div>
   </div>
+
   <script>
+    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+      const response = await fetch('/api/logout', { method: 'POST' });
+      if (response.ok) {
+        window.location.href = '/';
+      }
+    });
+
+    fetch('/api/check-auth')
+      .then(res => {
+        if (!res.ok) {
+          window.location.href = '/';
+        }
+      })
+      .catch(() => {
+        window.location.href = '/';
+      });
+
     function switchTab(event, tabName) {
       document.querySelectorAll('.content-panels').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -147,6 +217,7 @@
       event.target.classList.add('active');
       if (tabName === 'checklist') initChecklist();
     }
+
     function initChecklist() {
       const content = document.getElementById('checklistContent');
       if (content.innerHTML === '') {
@@ -171,85 +242,112 @@
         }
       }
     }
+
     function autoCheckStep(id) {
       const el = document.getElementById(id);
-      if (el) { el.checked = true; localStorage.setItem(id, 'true'); }
+      if (el) {
+        el.checked = true;
+        localStorage.setItem(id, 'true');
+      }
     }
+
     let severityChart = null, progressChart = null;
+
     function initCharts() {
       const ctxSev = document.getElementById('severityChart').getContext('2d');
       severityChart = new Chart(ctxSev, {
         type: 'doughnut',
         data: {
           labels: ['Critical', 'High', 'Medium', 'Low', 'Info'],
-          datasets: [{ 
-            data: [0, 0, 0, 0, 0], 
-            backgroundColor: ['#ff0000', '#ff6600', '#ffff00', '#00ffff', '#00ff00'], 
-            borderColor: '#0a0e27', 
-            borderWidth: 2 
+          datasets: [{
+            data: [0, 0, 0, 0, 0],
+            backgroundColor: ['#ff0000', '#ff6600', '#ffff00', '#00aaff', '#00ff00'],
+            borderColor: '#0a0e27',
+            borderWidth: 2
           }]
         },
-        options: { 
-          responsive: true, 
+        options: {
+          responsive: true,
           maintainAspectRatio: false,
-          plugins: { 
-            legend: { labels: { color: '#0f0', font: { size: 11 } } } 
-          } 
+          plugins: {
+            legend: {
+              labels: {
+                color: '#0f0',
+                font: { size: 11, weight: 'bold' },
+                padding: 12,
+                usePointStyle: true
+              }
+            }
+          }
         }
       });
+
       const ctxProg = document.getElementById('progressChart').getContext('2d');
       progressChart = new Chart(ctxProg, {
         type: 'bar',
         data: {
           labels: ['Subdomains', 'Live Hosts', 'URLs', 'Vulns'],
-          datasets: [{ label: 'Count', data: [0, 0, 0, 0], backgroundColor: '#0f0', borderColor: '#0a0', borderWidth: 1 }]
+          datasets: [{
+            label: 'Count',
+            data: [0, 0, 0, 0],
+            backgroundColor: '#0f0',
+            borderColor: '#0a0',
+            borderWidth: 1,
+            borderRadius: 4
+          }]
         },
-        options: { 
-          responsive: true, 
+        options: {
+          responsive: true,
           maintainAspectRatio: false,
           indexAxis: 'y',
-          plugins: { 
-            legend: { labels: { color: '#0f0', font: { size: 10 } } }
+          plugins: {
+            legend: {
+              labels: {
+                color: '#0f0',
+                font: { size: 10, weight: 'bold' },
+                padding: 10
+              }
+            }
           },
-          scales: { 
-            y: { ticks: { color: '#0f0' }, grid: { color: '#1a1f3a' } }, 
-            x: { ticks: { color: '#0f0' }, grid: { color: '#1a1f3a' } } 
+          scales: {
+            y: {
+              ticks: { color: '#0f0' },
+              grid: { color: '#1a1f3a' }
+            },
+            x: {
+              ticks: { color: '#0f0' },
+              grid: { color: '#1a1f3a' }
+            }
           }
         }
       });
     }
+
     window.addEventListener('load', initCharts);
 
     function startRecon() {
       const domain = document.getElementById('domainInput').value;
-      if (!domain) { alert('Enter domain'); return; }
+      if (!domain) {
+        alert('Please enter a domain');
+        return;
+      }
+
       document.getElementById('logContent').innerHTML = '';
-      document.getElementById('vulnPanel').innerHTML = '<span class="info">Scanning...</span>';
+      document.getElementById('vulnPanel').innerHTML = '<div class="scanning-status">🔄 Scanning in progress...</div>';
+
       const nav = document.querySelectorAll('.nav-item')[1];
-      switchTab({target: nav}, 'scan');
+      switchTab({ target: nav }, 'scan');
+
       fetch('/run-recon', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ domain })
-      }).then(() => streamLogs());
-    }
-
-    
-    function colorSeverityKeywords(text) {
-      const severityColors = {
-        'critical': '#ff0000',
-        'high': '#ff6600',
-        'medium': '#ffff00',
-        'low': '#00aaff',
-        'info': '#00ff00'
-      };
-
-      let coloredText = text;
-      for (let [severity, color] of Object.entries(severityColors)) {
-        const regex = new RegExp(`\b(${severity})\b`, 'gi');
-        coloredText = coloredText.replace(regex, `<span style="color:${color};font-weight:bold;">$1</span>`);
-      }
-      return coloredText;
+      })
+        .then(() => streamLogs())
+        .catch(err => {
+          console.error('Scan error:', err);
+          document.getElementById('logContent').innerHTML = `<span style="color: #ff0000;">Error: ${err.message}</span>`;
+        });
     }
 
     function getSeverityColor(severity) {
@@ -257,10 +355,53 @@
         'critical': '#ff0000',
         'high': '#ff6600',
         'medium': '#ffff00',
-        'low': '#00ffff',
+        'low': '#00aaff',
         'info': '#00ff00'
       };
-      return colors[severity] || '#00ff00';
+      return colors[severity.toLowerCase()] || '#00ff00';
+    }
+
+    function extractSeverityFromVuln(text) {
+      const severities = ['critical', 'high', 'medium', 'low', 'info'];
+
+      const bracketMatch = text.match(/\[(critical|high|medium|low|info)\]/i);
+      if (bracketMatch) {
+        return bracketMatch[1].toLowerCase();
+      }
+
+      for (let severity of severities) {
+        if (text.toLowerCase().startsWith(severity)) {
+          return severity;
+        }
+      }
+
+      for (let severity of severities) {
+        const regex = new RegExp(`\\b${severity}\\b`, 'i');
+        if (regex.test(text)) {
+          return severity;
+        }
+      }
+
+      return 'info';
+    }
+
+    function highlightSeverityText(text) {
+      const severityMap = {
+        'critical': { color: '#ff0000', bg: 'rgba(255, 0, 0, 0.1)' },
+        'high': { color: '#ff6600', bg: 'rgba(255, 102, 0, 0.1)' },
+        'medium': { color: '#ffff00', bg: 'rgba(255, 255, 0, 0.1)' },
+        'low': { color: '#00aaff', bg: 'rgba(0, 170, 255, 0.1)' },
+        'info': { color: '#00ff00', bg: 'rgba(0, 255, 0, 0.1)' }
+      };
+
+      let highlightedText = text;
+      for (let [severity, style] of Object.entries(severityMap)) {
+        const regex = new RegExp(`(\\[${severity}\\]|\\b${severity}\\b)`, 'gi');
+        highlightedText = highlightedText.replace(regex,
+          `<span style="color: ${style.color}; font-weight: bold; background: ${style.bg}; padding: 2px 4px; border-radius: 2px;">$1</span>`
+        );
+      }
+      return highlightedText;
     }
 
     function streamLogs() {
@@ -271,51 +412,63 @@
       let stepMarked = {};
       vuln.innerHTML = '';
       log.innerHTML = '';
-      es.onmessage = function(e) {
+
+      es.onmessage = function (e) {
         const d = e.data.trim();
-        // Chart progress + checklist
+
         if (d.includes("[+] Found") && d.includes("subdomains")) {
           let num = Number((d.match(/(\d+)\s+subdomains/) || [0, 0])[1]);
-          progressChart.data.datasets[0].data[0] = num; progressChart.update();
-          !stepMarked.step1 && autoCheckStep('step1'); stepMarked.step1 = true;
+          progressChart.data.datasets[0].data[0] = num;
+          progressChart.update();
+          !stepMarked.step1 && autoCheckStep('step1');
+          stepMarked.step1 = true;
         }
+
         if (d.includes("[+] Found") && d.includes("live hosts")) {
           let num = Number((d.match(/(\d+)\s+live\s+hosts/) || [0, 0])[1]);
-          progressChart.data.datasets[0].data[1] = num; progressChart.update();
-          !stepMarked.step2 && autoCheckStep('step2'); stepMarked.step2 = true;
+          progressChart.data.datasets[0].data[1] = num;
+          progressChart.update();
+          !stepMarked.step2 && autoCheckStep('step2');
+          stepMarked.step2 = true;
         }
+
         if (d.includes("[+] Found") && d.includes("URLs")) {
           let num = Number((d.match(/(\d+)\s+URLs/) || [0, 0])[1]);
-          progressChart.data.datasets[0].data[2] = num; progressChart.update();
-          !stepMarked.step3 && autoCheckStep('step3'); stepMarked.step3 = true;
+          progressChart.data.datasets[0].data[2] = num;
+          progressChart.update();
+          !stepMarked.step3 && autoCheckStep('step3');
+          stepMarked.step3 = true;
         }
+
         if (d.includes("[+] Found") && d.includes("vulnerabilities")) {
           let num = Number((d.match(/(\d+)\s+vulnerabilities/) || [0, 0])[1]);
-          progressChart.data.datasets[0].data[3] = num; progressChart.update();
-          !stepMarked.step5 && autoCheckStep('step5'); stepMarked.step5 = true;
+          progressChart.data.datasets[0].data[3] = num;
+          progressChart.update();
+          !stepMarked.step5 && autoCheckStep('step5');
+          stepMarked.step5 = true;
         }
-        // Pretty vuln output
+
         if (d.includes('###VULN###')) {
           let v = d.replace('###VULN###', '').replace('###END###', '').trim();
-          // Parse: [severity] name (url)
-          let match = v.match(/\[(.*?)\]\s*([^\(]+)\((https?:\/\/.*?)\)/);
-          let severity = match ? match[1].toLowerCase() : 'info';
-          let vulntype = match ? match[2].trim() : '';
-          let url = match ? match[3] : v;
+          let severity = extractSeverityFromVuln(v);
           let color = getSeverityColor(severity);
-          vuln.innerHTML += `<div style="border-left:6px solid ${color};margin-top:4px;padding:6px;">
-            <span style="font-weight:bold;color:${color};text-transform:uppercase;">[${severity}]</span>
-            <span style="font-weight:bold;">${colorSeverityKeywords(vulntype)}</span>
-            <span style="color:#aaa;font-weight:bold;">${url}</span>
+          let highlightedVuln = highlightSeverityText(v);
+
+          vuln.innerHTML += `<div class="vuln-entry" style="border-left-color: ${color};">
+            <span class="vuln-severity-badge" style="color: #fff; background-color: ${color};">[${severity.toUpperCase()}]</span>
+            <span class="info-text">${highlightedVuln}</span>
           </div>`;
           vuln.scrollTop = vuln.scrollHeight;
+
           if (severityChart) {
-            if (severity === "critical") count.critical++;
-            else if (severity === "high") count.high++;
-            else if (severity === "medium") count.medium++;
-            else if (severity === "low") count.low++;
-            else count.info++;
-            severityChart.data.datasets[0].data = [count.critical, count.high, count.medium, count.low, count.info];
+            count[severity]++;
+            severityChart.data.datasets[0].data = [
+              count.critical,
+              count.high,
+              count.medium,
+              count.low,
+              count.info
+            ];
             severityChart.update();
           }
         } else if (d && d.length > 0) {
@@ -323,24 +476,52 @@
           log.scrollTop = log.scrollHeight;
         }
       };
-      es.onerror = function() { es.close(); };
+
+      es.onerror = function () {
+        console.log('EventSource closed - Scan completed');
+        es.close();
+      };
     }
 
-    function handleAIInput(e) { if (e.key === 'Enter') sendToAI(); }
+    function handleAIInput(e) {
+      if (e.key === 'Enter') sendToAI();
+    }
+
     function sendToAI() {
       const msg = document.getElementById('aiInput').value;
       if (!msg) return;
+
       const chat = document.getElementById('chatBox');
-      chat.innerHTML += `<div style="color: #0f0; margin-top: 5px;"><b>You:</b> ${msg}</div>`;
+      chat.innerHTML += `<div style="color: #0f0; margin-top: 8px;"><b>You:</b> ${msg}</div>`;
       document.getElementById('aiInput').value = '';
       chat.scrollTop = chat.scrollHeight;
-      const resp = { 'xss': 'XSS: Input validation, output encoding, CSP headers', 'sql': 'SQL: Prepared statements, parameterized queries', 'vulnerability': 'Check OWASP Top 10', 'exploit': 'Always get authorization', 'default': 'Ask me anything!' };
-      let r = resp['default'];
-      for (let k of Object.keys(resp)) { if (msg.toLowerCase().includes(k)) { r = resp[k]; break; } }
+
+      const responses = {
+        'xss': 'XSS (Cross-Site Scripting): Exploit through input validation bypass. Mitigation: Use output encoding, CSP headers, and input validation.',
+        'sql': 'SQL Injection: Exploit through parameterized queries bypass. Mitigation: Use prepared statements and parameterized queries.',
+        'rce': 'RCE (Remote Code Execution): Critical vulnerability allowing arbitrary code execution. Mitigation: Disable unsafe functions, use sandboxing.',
+        'authentication': 'Authentication flaws: Weak password policies, session fixation. Mitigation: Strong password enforcement, secure session handling.',
+        'authorization': 'Authorization bypass: Access control issues. Mitigation: Implement proper access control, role-based permissions.',
+        'vulnerability': 'Check OWASP Top 10: Injection, Broken Authentication, Sensitive Data Exposure, Broken Access Control, Security Misconfiguration, XSS, Insecure Deserialization, etc.',
+        'exploit': 'Always obtain proper authorization before attempting any exploit. Unauthorized testing is illegal.',
+        'remediation': 'General remediation: Update software, apply security patches, conduct code review, implement WAF, security testing.',
+        'nuclei': 'Nuclei is a fast vulnerability scanner. Use templates for detection. Syntax: nuclei -l targets.txt -t templates/',
+        'pentest': 'Pentest phases: Reconnaissance, Scanning, Enumeration, Vulnerability Analysis, Exploitation, Post-Exploitation, Reporting.',
+        'default': 'I can help with vulnerabilities, exploitation techniques, remediation strategies, and penetration testing methodologies. Ask away!'
+      };
+
+      let response = responses['default'];
+      for (let keyword of Object.keys(responses)) {
+        if (msg.toLowerCase().includes(keyword)) {
+          response = responses[keyword];
+          break;
+        }
+      }
+
       setTimeout(() => {
-        chat.innerHTML += `<div style="color: #f0f; margin-top: 5px;"><b>AI:</b> ${r}</div>`;
+        chat.innerHTML += `<div style="color: #f0f; margin-top: 8px;"><b>AI:</b> ${response}</div>`;
         chat.scrollTop = chat.scrollHeight;
-      }, 300);
+      }, 400);
     }
   </script>
 </body>

@@ -1,1 +1,0 @@
-[info] example-template - http://example.com - info

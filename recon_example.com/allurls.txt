@@ -1,2 +1,0 @@
-http://example.com/archived1
-http://example.com/page1

@@ -1,6 +1,0 @@
-example.com
-http://example.com
-http://example.com/archived1
-http://example.com/page1
-sub.example.com
-www.example.com
